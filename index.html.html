@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Prachi Chauhan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --accent: #00ff88;
+  --accent2: #ff3366;
+  --accent3: #3366ff;
+  --gray: #111111;
+  --muted: #444444;
+  --text-muted: #888888;
+}
+
+html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+.cur { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+.cur-dot { width: 8px; height: 8px; background: white; border-radius: 50%; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
+.cur-ring { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.5); border-radius: 50%; transform: translate(-50%,-50%); transition: all .15s ease-out; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 24px 60px;
+  mix-blend-mode: difference;
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+  color: white;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  color: white; text-decoration: none;
+  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+  opacity: 0.6; transition: opacity .2s;
+}
+.nav-links a:hover { opacity: 1; }
+
+/* SECTIONS */
+section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ====== HERO ====== */
+.hero {
+  background: var(--black);
+  padding: 0 60px;
+  justify-content: space-between;
+}
+
+.hero-bg-text {
+  position: absolute;
+  bottom: -20px; left: -10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(150px, 22vw, 320px);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.02em;
+}
+
+.hero-left { position: relative; z-index: 2; max-width: 700px; }
+
+.hero-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; color: var(--accent);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.hero-label::before {
+  content: '';
+  display: block; width: 32px; height: 1px;
+  background: var(--accent);
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 12vw, 180px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  margin-bottom: 40px;
+}
+
+.hero h1 .line2 {
+  -webkit-text-stroke: 2px white;
+  color: transparent;
+}
+
+.hero-desc {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 48px;
+  font-weight: 300;
+}
+
+.hero-desc em { color: var(--white); font-style: normal; }
+
+.hero-actions { display: flex; gap: 20px; align-items: center; }
+
+.btn-green {
+  background: var(--accent);
+  color: var(--black);
+  padding: 14px 32px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: transform .2s, box-shadow .2s;
+}
+.btn-green:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,255,136,0.3); }
+
+.btn-ghost {
+  color: white; font-size: 0.82rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  text-decoration: none; opacity: 0.5;
+  transition: opacity .2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.btn-ghost:hover { opacity: 1; }
+
+.hero-right {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; gap: 16px;
+  align-items: flex-end;
+}
+
+.stat-box {
+  background: var(--gray);
+  border: 1px solid #222;
+  padding: 20px 28px;
+  border-radius: 4px;
+  text-align: right;
+  min-width: 160px;
+}
+.stat-box .num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat-box .lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 40px; left: 60px;
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; color: var(--text-muted);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.scroll-line {
+  width: 40px; height: 1px;
+  background: var(--text-muted);
+  animation: scrollAnim 1.5s ease-in-out infinite;
+}
+@keyframes scrollAnim {
+  0%, 100% { transform: scaleX(1); opacity: 1; }
+  50% { transform: scaleX(0.4); opacity: 0.3; }
+}
+
+/* ====== ABOUT ====== */
+.about {
+  background: #0a0a0a;
+  padding: 0 60px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+
+.about-top {
+  width: 100%;
+  border-bottom: 1px solid #222;
+  padding-bottom: 40px;
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.about-top .section-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 8rem;
+  color: transparent;
+  -webkit-text-stroke: 1px #333;
+  line-height: 1;
+}
+
+.about-top .section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.about-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  width: 100%;
+}
+
+.about-text {
+  font-size: 1.1rem;
+  color: #aaa;
+  line-height: 2;
+  font-weight: 300;
+}
+.about-text strong { color: white; font-weight: 500; }
+
+.about-info { display: flex; flex-direction: column; gap: 0; }
+
+.info-item {
+  display: flex; justify-content: space-between;
+  padding: 18px 0;
+  border-bottom: 1px solid #1a1a1a;
+  font-size: 0.85rem;
+}
+.info-item .k { color: var(--text-muted); font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.info-item .v { color: white; }
+.info-item .v.green { color: var(--accent); }
+
+/* ====== SKILLS ====== */
+.skills-section {
+  background: var(--black);
+  padding: 0 60px;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.skills-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 80px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 32px;
+}
+
+.skills-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  letter-spacing: -0.02em;
+}
+
+.skills-subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.skills-list { width: 100%; }
+
+.skill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 0;
+  border-bottom: 1px solid #111;
+  position: relative;
+  overflow: hidden;
+  transition: padding-left .3s;
+}
+.skill-row::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 0; background: var(--accent);
+  opacity: 0.03;
+  transition: width .4s ease;
+}
+.skill-row:hover::before { width: 100%; }
+.skill-row:hover { padding-left: 20px; }
+
+.skill-row-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  letter-spacing: 0.02em;
+  color: white;
+}
+
+.skill-row-tags { display: flex; gap: 8px; }
+
+.stag {
+  border: 1px solid #333;
+  color: #666;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  padding: 5px 12px;
+  border-radius: 2px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.stag.g { border-color: rgba(0,255,136,0.3); color: var(--accent); }
+.stag.r { border-color: rgba(255,51,102,0.3); color: var(--accent2); }
+.stag.b { border-color: rgba(51,102,255,0.3); color: var(--accent3); }
+
+/* ====== PROJECTS ====== */
+.projects-section {
+  background: #080808;
+  padding: 0 60px;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.projects-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 32px;
+}
+
+.projects-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  letter-spacing: -0.02em;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 2px;
+  width: 100%;
+}
+
+.proj {
+  background: #0d0d0d;
+  border: 1px solid #1a1a1a;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  transition: background .3s;
+}
+.proj:hover { background: #111; }
+
+.proj.big { grid-row: span 2; }
+
+.proj-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+
+.proj-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.proj-desc {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.8;
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+
+.proj-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.proj-stack { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.proj-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: gap .2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.proj-link:hover { gap: 14px; }
+
+.proj-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(0,255,136,0.08);
+  border: 1px solid rgba(0,255,136,0.2);
+  color: var(--accent);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  padding: 4px 12px; border-radius: 2px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.proj-badge-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+/* ====== CERTS ====== */
+.certs-section {
+  background: var(--black);
+  padding: 0 60px;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.certs-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 32px;
+}
+
+.certs-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 6rem);
+  letter-spacing: -0.02em;
+}
+
+.certs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  width: 100%;
+}
+
+.cert {
+  background: #0d0d0d;
+  border: 1px solid #1a1a1a;
+  padding: 36px 32px;
+  transition: background .3s, border-color .3s;
+}
+.cert:hover { background: #111; border-color: #333; }
+
+.cert-org {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.cert-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: white;
+}
+
+/* ====== FOOTER/CONTACT ====== */
+.contact-section {
+  background: var(--accent);
+  padding: 0 60px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.contact-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  color: rgba(0,0,0,0.5);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.contact-heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 10vw, 10rem);
+  color: var(--black);
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  margin-bottom: 48px;
+}
+
+.contact-links { display: flex; gap: 40px; }
+
+.contact-link {
+  color: var(--black);
+  text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  transition: opacity .2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.contact-link:hover { opacity: 1; }
+
+.contact-bottom {
+  position: absolute; bottom: 40px; right: 60px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(0,0,0,0.4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: #333; }
+
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  .nav-links { display: none; }
+  section { padding: 100px 24px 60px !important; scroll-snap-align: none; }
+  html { scroll-snap-type: none; }
+  .hero { flex-direction: column; gap: 40px; justify-content: center; }
+  .hero-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+  .about-body { grid-template-columns: 1fr; gap: 40px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .proj.big { grid-row: span 1; }
+  .certs-grid { grid-template-columns: 1fr 1fr; }
+  .contact-heading { font-size: 3.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="curDot"><div class="cur-dot"></div></div>
+<div class="cur" id="curRing"><div class="cur-ring"></div></div>
+
+<nav>
+  <div class="nav-logo">PC</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-text">PRACHI</div>
+
+  <div class="hero-left reveal">
+    <div class="hero-label">Available for internship 2026</div>
+    <h1>
+      <div>PRACHI</div>
+      <div class="line2">CHAUHAN</div>
+    </h1>
+    <p class="hero-desc">
+      <em>Python Developer</em> building real-world projects.
+      Currently crafting a <em>Developer Productivity Analyzer</em>
+      with React + FastAPI. B.Tech CSE '27 at AKTU.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-green">View Projects</a>
+      <a href="#contact" class="btn-ghost">Get in touch →</a>
+    </div>
+  </div>
+
+  <div class="hero-right reveal">
+    <div class="stat-box">
+      <div class="num">104+</div>
+      <div class="lbl">LeetCode Solved</div>
+    </div>
+    <div class="stat-box">
+      <div class="num">1.5K</div>
+      <div class="lbl">LinkedIn Followers</div>
+    </div>
+    <div class="stat-box">
+      <div class="num">4+</div>
+      <div class="lbl">Projects Built</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-top reveal">
+    <div class="section-num">01</div>
+    <div class="section-title">ABOUT ME</div>
+  </div>
+  <div class="about-body">
+    <div class="about-text reveal">
+      I'm a 3rd-year Computer Science student who believes in
+      <strong>building first, learning along the way</strong>.
+      Theory is good — but real projects teach what no textbook can.<br><br>
+      Currently building a <strong>GitHub analytics dashboard</strong>
+      using React + FastAPI. Recently shipped a <strong>Smart Job Tracker</strong>
+      with Python OOPs and email automation.<br><br>
+      When not coding — solving DSA problems on LeetCode,
+      exploring <strong>cybersecurity</strong>, and sharing insights
+      with my 1,500+ LinkedIn community.
+    </div>
+    <div class="about-info reveal">
+      <div class="info-item"><span class="k">University</span><span class="v">AKTU, Lucknow</span></div>
+      <div class="info-item"><span class="k">Degree</span><span class="v">B.Tech CSE '27</span></div>
+      <div class="info-item"><span class="k">Location</span><span class="v">Seohara, UP, India</span></div>
+      <div class="info-item"><span class="k">LeetCode</span><span class="v">104+ solved | Rating 1413</span></div>
+      <div class="info-item"><span class="k">GitHub</span><span class="v">prachichauhan006</span></div>
+      <div class="info-item"><span class="k">Status</span><span class="v green">Open to Internship</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="skills-header reveal">
+    <div class="skills-title">TECH STACK</div>
+    <div class="skills-subtitle">02 — What I work with</div>
+  </div>
+  <div class="skills-list">
+    <div class="skill-row reveal">
+      <div class="skill-row-name">Python</div>
+      <div class="skill-row-tags">
+        <span class="stag g">FastAPI</span>
+        <span class="stag g">Pandas</span>
+        <span class="stag g">Automation</span>
+        <span class="stag g">OOPs</span>
+      </div>
+    </div>
+    <div class="skill-row reveal">
+      <div class="skill-row-name">React.js</div>
+      <div class="skill-row-tags">
+        <span class="stag b">Vite</span>
+        <span class="stag b">Hooks</span>
+        <span class="stag b">Recharts</span>
+        <span class="stag b">Tailwind</span>
+      </div>
+    </div>
+    <div class="skill-row reveal">
+      <div class="skill-row-name">DSA</div>
+      <div class="skill-row-tags">
+        <span class="stag r">Arrays</span>
+        <span class="stag r">HashMap</span>
+        <span class="stag r">Two Pointers</span>
+        <span class="stag r">Stack</span>
+      </div>
+    </div>
+    <div class="skill-row reveal">
+      <div class="skill-row-name">Cybersecurity</div>
+      <div class="skill-row-tags">
+        <span class="stag">Threat Analysis</span>
+        <span class="stag">Deloitte Sim</span>
+      </div>
+    </div>
+    <div class="skill-row reveal">
+      <div class="skill-row-name">Dev Tools</div>
+      <div class="skill-row-tags">
+        <span class="stag">Git</span>
+        <span class="stag">GitHub</span>
+        <span class="stag">VS Code</span>
+        <span class="stag">Prompt Eng.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects-section" id="projects">
+  <div class="projects-header reveal">
+    <div class="projects-title">PROJECTS</div>
+    <div class="skills-subtitle">03 — Things I've built</div>
+  </div>
+  <div class="projects-grid">
+    <div class="proj big reveal">
+      <div class="proj-num">01 — Featured</div>
+      <div class="proj-badge"><span class="proj-badge-dot"></span>In Progress</div>
+      <div class="proj-title">Developer Productivity & Code Health Analyzer</div>
+      <div class="proj-desc">
+        Full-stack web app — GitHub OAuth login, repository health metrics,
+        commit activity analysis, PR tracking, contributor stats.
+        Built with React + FastAPI + GitHub REST API.
+      </div>
+      <div class="proj-footer">
+        <div class="proj-stack">
+          <span class="stag g">React.js</span>
+          <span class="stag g">FastAPI</span>
+          <span class="stag b">GitHub OAuth</span>
+          <span class="stag r">Recharts</span>
+        </div>
+        <a href="https://github.com/prachichauhan006" class="proj-link" target="_blank">View →</a>
+      </div>
+    </div>
+
+    <div class="proj reveal">
+      <div class="proj-num">02</div>
+      <div class="proj-title">Smart Job Application Tracker</div>
+      <div class="proj-desc">Python + OOPs automation tool. Tracks applications, sends email reminders after 7 days, saves to Excel.</div>
+      <div class="proj-footer">
+        <div class="proj-stack">
+          <span class="stag g">Python</span>
+          <span class="stag">OOPs</span>
+          <span class="stag">Automation</span>
+        </div>
+        <a href="https://github.com/prachichauhan006/job-tracker" class="proj-link" target="_blank">View →</a>
+      </div>
+    </div>
+
+    <div class="proj reveal">
+      <div class="proj-num">03</div>
+      <div class="proj-title">Adaptive Learning Quiz App</div>
+      <div class="proj-desc">Desktop quiz app that adapts difficulty based on real-time user performance. Python + Tkinter.</div>
+      <div class="proj-footer">
+        <div class="proj-stack">
+          <span class="stag g">Python</span>
+          <span class="stag">Tkinter</span>
+        </div>
+        <a href="https://github.com/prachichauhan006/adaptive-learning-quiz" class="proj-link" target="_blank">View →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section class="certs-section" id="certs">
+  <div class="certs-header reveal">
+    <div class="certs-title">CERTIFICATIONS</div>
+    <div class="skills-subtitle">04 — Verified credentials</div>
+  </div>
+  <div class="certs-grid">
+    <div class="cert reveal">
+      <div class="cert-org">HackerRank</div>
+      <div class="cert-name">Python Basic Certification</div>
+    </div>
+    <div class="cert reveal">
+      <div class="cert-org">GitHub</div>
+      <div class="cert-name">Prompt Engineering with Copilot</div>
+    </div>
+    <div class="cert reveal">
+      <div class="cert-org">Deloitte — Forage</div>
+      <div class="cert-name">Cyber Job Simulation</div>
+    </div>
+    <div class="cert reveal">
+      <div class="cert-org">Accenture — Forage</div>
+      <div class="cert-name">Software Engineering Simulation</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-label">05 — Get in touch</div>
+  <div class="contact-heading reveal">LET'S<br>CONNECT.</div>
+  <div class="contact-links reveal">
+    <a href="mailto:prachisisodia222@gmail.com" class="contact-link">Email →</a>
+    <a href="https://linkedin.com/in/prachitechvision" target="_blank" class="contact-link">LinkedIn →</a>
+    <a href="https://github.com/prachichauhan006" target="_blank" class="contact-link">GitHub →</a>
+    <a href="https://leetcode.com/Prachi_chauhan_006" target="_blank" class="contact-link">LeetCode →</a>
+  </div>
+  <div class="contact-bottom">Prachi Chauhan — B.Tech CSE '27 — AKTU</div>
+</section>
+
+<script>
+  // Cursor
+  const dot = document.getElementById('curDot');
+  const ring = document.getElementById('curRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    dot.style.left=mx+'px'; dot.style.top=my+'px';
+  });
+  (function animRing(){
+    rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  // Reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => {
+      if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*100);
+    });
+  }, {threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
